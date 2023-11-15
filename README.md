@@ -1,5 +1,7 @@
 # alchemy-viem
 
+A rework of the [Alchemy SDK](https://github.com/alchemyplatform/alchemy-sdk-js) using [viem](https://viem.sh/) instead of [Ethers.js](https://docs.ethers.org/).
+
 To install dependencies:
 
 ```bash
