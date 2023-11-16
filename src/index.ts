@@ -10,18 +10,36 @@ type Config = {
 };
 
 export class Alchemy {
-  public _clients: AlchemyClient[];
+  public _clients: Map<Network, AlchemyClient>;
 
   constructor({ networks, apiKey }: Config) {
     this._clients = initalizeClients({ networks, apiKey });
   }
+
+  get core() {
+    const clients = this._clients;
+    return {
+      async getTokenBalances() {
+        const map = new Map();
+        for (const [network, client] of clients) {
+          map.set(
+            network,
+            await client.getTokenBalances({
+              addressOrEnsName: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+            })
+          );
+        }
+        return Object.fromEntries(map.entries());
+      },
+    };
+  }
 }
 
 function initalizeClients({ networks, apiKey }: Config) {
-  return networks.map((network) => {
-    return createAlchemyClient({
+  return new Map<Network, AlchemyClient>(
+    networks.map((network) => [
       network,
-      apiKey,
-    });
-  });
+      createAlchemyClient({ network, apiKey }),
+    ])
+  );
 }

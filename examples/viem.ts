@@ -17,7 +17,7 @@ import { Network } from "../src/client/networks";
 // console.log("Result", tokenBalances);
 
 const alchemy = new Alchemy({
-  networks: [Network.ETH_MAINNET],
+  networks: [Network.ETH_MAINNET, Network.OPT_MAINNET],
   apiKey: process.env.ALCHEMY_API_KEY as string,
 });
 
@@ -25,7 +25,5 @@ const alchemy = new Alchemy({
 const ensName = "vitalik.eth";
 
 // // TODO: add pagination
-const tokenBalances = await alchemy._clients[0].getTokenBalances({
-  addressOrEnsName: ensName,
-});
+const tokenBalances = await alchemy.core.getTokenBalances();
 console.log("Result", tokenBalances);
