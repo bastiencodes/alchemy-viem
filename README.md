@@ -2,16 +2,26 @@
 
 A rework of the [Alchemy SDK](https://github.com/alchemyplatform/alchemy-sdk-js) using [viem](https://viem.sh/) instead of [Ethers.js](https://docs.ethers.org/).
 
-To install dependencies:
+## Differences
 
-```bash
-bun install
-```
+- Uses [viem](https://viem.sh/) instead of [Ethers.js](https://docs.ethers.org/)
 
-To run:
+- `Network` enum changed
 
-```bash
-bun run index.ts
-```
+  - `MATIC_MAINNET` -> `POLYGON_MAINNET`
+  - `MATIC_MUMBAI` -> `POLYGON_MUMBAI`
 
-This project was created using `bun init` in bun v1.0.2. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+- `getTokenBalances` -> now available under alchemy
+
+## TODOs
+
+[] port core namespace
+[] port nft namespace
+[] port ws namespace
+[] port transact namespace
+[] port notify namespace
+[] port debug namespace
+
+[] make sdk multichain
+[] add Solana
+[] initialize multiple viem clients
