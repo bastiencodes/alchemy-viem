@@ -2,18 +2,20 @@ import {
   Address,
   Chain,
   Client,
+  PublicClient,
   Transport,
   createPublicClient,
   http,
 } from "viem";
 import { Network, getNetworkChainAndUrl } from "./networks";
+import { normalize } from "viem/ens";
 
 type EnsName = `${string}.eth`;
 
 type AddressOrEnsName = Address | EnsName;
 
 type GetTokenBalancesParameters = {
-  address: AddressOrEnsName;
+  addressOrEnsName: AddressOrEnsName;
 };
 
 export interface GetTokenBalancesReturnType {
@@ -46,7 +48,7 @@ type AlchemyRpcSchema = [GetTokenBalancesRpcSchema];
 const isEnsName = (addressOrEnsName: AddressOrEnsName): boolean =>
   addressOrEnsName.endsWith(".eth");
 
-const alchemyActions = (client: Client) => {
+const alchemyActions = (client: PublicClient) => {
   const clientAdapter = client as Client<
     Transport,
     Chain,
@@ -55,16 +57,25 @@ const alchemyActions = (client: Client) => {
   >;
 
   return {
-    getTokenBalances(
+    async getTokenBalances(
       args: GetTokenBalancesParameters
     ): Promise<GetTokenBalancesReturnType> {
       let address: Address;
 
-      if (isEnsName(args.address)) {
+      if (isEnsName(args.addressOrEnsName)) {
         // TODO: implement ens resolution
-        address = `0x1234...`;
+        const ensAddress = await client.getEnsAddress({
+          name: normalize(args.addressOrEnsName),
+        });
+        if (!ensAddress) {
+          throw new Error(
+            `Could not resolve ENS name ${args.addressOrEnsName}`
+          );
+        }
+        console.debug(`[ens] Resolved ${args.addressOrEnsName} to ${ensAddress}.`);
+        address = ensAddress;
       } else {
-        address = args.address as Address;
+        address = args.addressOrEnsName as Address;
       }
 
       return clientAdapter.request({
