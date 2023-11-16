@@ -1,1 +1,1 @@
-export { createAlchemyClient } from "./client/create-client";
+export { createAlchemyClient } from "./client/createAlchemyClient";
