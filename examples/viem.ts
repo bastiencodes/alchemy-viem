@@ -1,6 +1,10 @@
 import { createAlchemyClient } from "../src";
+import { Network } from "../src/client/networks";
 
-const alchemy = createAlchemyClient();
-const address = "0x5e6ef723dd07eabab5b5d21f031b17fca91c8e3a";
+const alchemy = createAlchemyClient({ 
+  network: Network.ETH_MAINNET,
+   apiKey: process.env.ALCHEMY_API_KEY });
+const address = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045";
+
 const tokenBalances = await alchemy.getTokenBalances({ address});
 console.log("tokenBalances", tokenBalances);
