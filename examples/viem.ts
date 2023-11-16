@@ -21,9 +21,11 @@ const alchemy = new Alchemy({
   apiKey: process.env.ALCHEMY_API_KEY as string,
 });
 
-// const address = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045";
+const address = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045";
 const ensName = "vitalik.eth";
 
 // // TODO: add pagination
-const tokenBalances = await alchemy.core.getTokenBalances();
+const tokenBalances = await alchemy.core.getTokenBalances(address);
 console.log("Result", tokenBalances);
+
+console.log(await alchemy.wallet.getBalances(address))
