@@ -6,6 +6,7 @@ import {
   createPublicClient,
   http,
 } from "viem";
+import { Network, getNetworkChainAndUrl } from "./networks";
 
 type EnsName = `${string}.eth`;
 
@@ -74,14 +75,20 @@ const alchemyActions = (client: Client) => {
   };
 };
 
-export const createAlchemyClient = (
-  {
-    apiKey = "alch-demo",
-  }: {
-    apiKey: string | undefined;
-  } = { apiKey: "alch-demo" }
-) => {
+export const createAlchemyClient = ({
+  network,
+  apiKey = "alch-demo",
+}: {
+  network: Network;
+  apiKey: string | undefined;
+}) => {
+  const { chain, rpcUrl } = getNetworkChainAndUrl({
+    network,
+    apiKey,
+  });
   return createPublicClient({
-    transport: http(),
+    chain,
+    // TODO: support websocket
+    transport: http(rpcUrl),
   }).extend(alchemyActions);
 };
