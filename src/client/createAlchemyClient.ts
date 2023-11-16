@@ -26,10 +26,10 @@ export type AlchemyClient<
 
 export const createAlchemyClient = ({
   network,
-  apiKey = "alch-demo",
+  apiKey,
 }: {
   network: Network;
-  apiKey: string | undefined;
+  apiKey: string;
 }): AlchemyClient => {
   const { chain, rpcUrl } = getNetworkChainAndUrl({
     network,
