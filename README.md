@@ -25,3 +25,6 @@ A rework of the [Alchemy SDK](https://github.com/alchemyplatform/alchemy-sdk-js)
 [] make sdk multichain
 [] add Solana
 [] initialize multiple viem clients
+
+[] add support for ens
+[] add support unstoppable domains
